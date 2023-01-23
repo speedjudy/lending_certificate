@@ -1,0 +1,82 @@
+{
+  "name": "SceneGen",
+  "version": "1.0.0",
+  "description": "The world's most fair lending authentication",
+  "homepage": ".",
+  "scripts": {
+    "build": "react-app-rewired build",
+    "start": "react-app-rewired start",
+    "test": "react-app-rewired test"
+  },
+  "dependencies": {
+    "@coreui/coreui": "^4.2.1",
+    "@coreui/icons": "^2.1.0",
+    "@coreui/icons-react": "^2.1.0",
+    "@coreui/react": "^4.3.1",
+    "@coreui/utils": "^1.3.1",
+    "@web3-onboard/core": "^2.13.0",
+    "@web3-onboard/gnosis": "^2.1.5",
+    "@web3-onboard/injected-wallets": "^2.5.0",
+    "@web3-onboard/ledger": "^2.4.0",
+    "@web3-onboard/magic": "^2.1.3",
+    "@web3-onboard/mew-wallet": "^2.0.0",
+    "@web3-onboard/react": "^2.5.4",
+    "@web3-onboard/trezor": "^2.3.2",
+    "@web3-onboard/web3auth": "^2.1.4",
+    "assert": "^2.0.0",
+    "buffer": "^6.0.3",
+    "classnames": "^2.3.1",
+    "core-js": "^3.24.1",
+    "crypto-browserify": "^3.12.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-app-polyfill": "^3.0.0",
+    "react-app-rewired": "^2.2.1",
+    "react-bootstrap": "^2.7.0",
+    "react-dom": "^18.2.0",
+    "react-jazzicon": "^1.0.4",
+    "react-notifications": "^1.7.4",
+    "react-redux": "^8.0.2",
+    "react-router-dom": "^6.3.0",
+    "react-select": "^5.7.0",
+    "redux": "4.2.0",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.4.1",
+    "simplebar-react": "^2.4.1",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.0",
+    "util": "^0.12.5",
+    "web3": "^1.8.1",
+    "webpack-bundle-analyzer": "^4.7.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/user-event": "^14.4.3",
+    "react-scripts": "5.0.1",
+    "sass": "^1.54.4",
+    "web-vitals": "^2.1.4"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=10",
+    "npm": ">=6"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
