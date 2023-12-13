@@ -1,24 +1,21 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import {
-  CButton,
-  CCard,
-  CCardBody,
-  CCardGroup,
-  CCol,
-  CContainer,
-  CForm,
-  CFormInput,
-  CInputGroup,
-  CInputGroupText,
-  CRow,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+import React, { useEffect } from 'react'
+import { useAuth0 } from "@auth0/auth0-react";
+import { Link, useNavigate } from 'react-router-dom'
 import '../../../data/css/index.css'
-import logoImage from '../../../data/img/logo3.png';
 
 const Login = () => {
+  const { loginWithRedirect } = useAuth0();
+  const { user, isAuthenticated, isLoading } = useAuth0();
+  const navigate = useNavigate();
+  useEffect(()=>{
+    console.log(isAuthenticated, user)
+    if (isAuthenticated) {
+      localStorage.setItem('email', user.email);
+      localStorage.setItem('name', user.name);
+      navigate('/wallet');
+    }
+  }, [isAuthenticated])
+
   return (
     <div className="bg-light min-vh-100 align-items-center">
       <svg width="0" height="0" style={{ position: 'absolute' }} fill="currentColor" focusable="false">
@@ -114,11 +111,11 @@ const Login = () => {
                     minutes by following the next steps.
                   </p>
                   <div className="buttons-e328982eb3aa1b0797ef3f03b4d33925">
-                    <Link to="wallet">
-                      <button className="ods-button -action--primary button-cceed290ad520b8c7599440293b2e2fa">Get
-                        Certificate
+                    {/* <Link to="wallet"> */}
+                      <button className="ods-button -action--primary button-cceed290ad520b8c7599440293b2e2fa" onClick={() => loginWithRedirect()}>
+                        Get Certificate
                       </button>
-                    </Link>
+                    {/* </Link> */}
                   </div>
                 </div>
                 <div style={{ paddingLeft: '5px', paddingTop: '10px', paddingBottom: '20px' }}>
