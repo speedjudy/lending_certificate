@@ -1,4 +1,4 @@
-# React Boiler Plate
+# React & blockchain
 ## Quick Start
 
 ### Installation
